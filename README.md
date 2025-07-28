@@ -1,2 +1,2 @@
 # Proyecto-Liga
-api liga
+Api que permite agregar o buscar jugadores en una base de datos.
