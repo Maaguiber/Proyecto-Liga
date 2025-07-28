@@ -1,0 +1,27 @@
+  [{
+  "usuarios": [
+    {
+      "id": 1,
+      "nombre": "Alejo",
+      "apellido": "Ortega",
+      "edad": 28,
+      "apodo": "Animal"
+    },
+    {
+      "id": 2,
+      "nombre": "Lucas",
+      "apellido": "Florena",
+      "edad": 29,
+      "apodo": "Oreja"
+    },
+    {
+      "id": 3,
+      "nombre": "Emiliano",
+      "apellido": "Cancinos",
+      "edad": 28,
+      "signo": "Canci"
+    }
+  ]
+}]
+
+
