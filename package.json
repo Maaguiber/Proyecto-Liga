@@ -1,19 +1,16 @@
 {
-  "name": "proyecto-liga",
+  "dependencies": {
+    "express": "^4.21.2",
+    "prompt-sync": "^4.2.0"
+  },
+  "name": "api-nueva",
   "version": "1.0.0",
-  "description": "Api que permite agregar o buscar jugadores en una base de datos.",
-  "main": "csv-reader.js",
+  "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no hay script configurado\" && exit 1"
   },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/Maaguiber/Proyecto-Liga.git"
-  },
-  "author": "Lucas Florena",
+  "keywords": [],
+  "author": "",
   "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/Maaguiber/Proyecto-Liga/issues"
-  },
-  "homepage": "https://github.com/Maaguiber/Proyecto-Liga#readme"
+  "description": ""
 }
