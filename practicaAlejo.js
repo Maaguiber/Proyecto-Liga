@@ -96,6 +96,9 @@ function agregarDatosCsv(rutaArchivo, datos, separador = ",") {
 }
 
 async function buscadorDeApellidos(apellidoABuscar) {
+// Usa await para leer los datos de un CSV.
+// Compara los apellidos de los jugadores (en minúsculas) con el apellido buscado.
+// Devuelve un array con todos los jugadores que coinciden.
     var apellidoQueEstoyBuscandoEnMinuscula = apellidoABuscar.toLowerCase();
     var infoJugadores = await leerCsv("./dataJugadores.csv");
     var apellidoEncontrado = [];
