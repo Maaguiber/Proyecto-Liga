@@ -26,9 +26,7 @@ async function main() {
             console.log(nuevosJugadores);
         }
         if (primerBusqueda === "buscar") {
-            var apellidoABuscar = alUsuario.pedirValorString(
-                "Ingrese apellido a buscar "
-            );
+            var apellidoABuscar = alUsuario.pedirValorString("Ingrese apellido a buscar ");
             var promesa = await buscadorDeApellidos(apellidoABuscar);
             console.log("Resultado búsqueda:", promesa);
         }
