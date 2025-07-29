@@ -1,9 +1,3 @@
-// 1. Cuando comienza el programa, preguntarle al usuario si quiere agregar un jugador o buscar un jugador
-// 2. Debería poder buscar los jugadores cargados en el CSV
-// 3. Si elijo agregar un jugador, el jugador se debería agregar como una linea más del CSV sin afectar a los jugadores agregados antiguamente
-// 4. Si elijo buscar un jugador deberia pedirle al usuario un apellido y buscar los jugadores que tengan ese apellido. Una vez que lo encuentra y lo imprime,
-//  deberíamos volver al menú principal
-
 // promesa = objeto que marca el final  de una funcion asincronica (async)
 const fs = require("fs");
 // fs Modulo que permite interactuar con el sistema de archivos y directorios
@@ -42,14 +36,7 @@ async function main() {
         }
     }
 }
-
 main();
-
-//despues de agregar o buscar un jugador, se debe preguntar si se quiere aagregar/buscar segun corresponda
-//volver al menu principal, que deberia el mismo menu que al inicio del programa
-//para agregar un jugador, se debe agregar si o si un apellido, un nombre y una edad, los 3 juntos o ninguno
-//validar que esten los 3 antes de intentar crear el jugador
-//logear en el mensaje de error los o el campo faltante
 
 function jugadorDentroDeUnArray() {
     var arrayDeJugadores = [];
