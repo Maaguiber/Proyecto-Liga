@@ -34,6 +34,12 @@ async function main() {
 }
 main();
 
+//despues de agregar o buscar un jugador, se debe preguntar si se quiere aagregar/buscar segun corresponda
+//volver al menu principal, que deberia el mismo menu que al inicio del programa
+//para agregar un jugador, se debe agregar si o si un apellido, un nombre y una edad, los 3 juntos o ninguno
+//validar que esten los 3 antes de intentar crear el jugador
+// logear en el mensaje de error los o el campo faltante
+
 function jugadorDentroDeUnArray() {
     var arrayDeJugadores = [];
     // cambie el for por un while ya que no estaba usando ninguna condicion
@@ -72,9 +78,9 @@ function jugadorDentroDeUnArray() {
     }
 }
 function agregarDatosCsv(rutaArchivo, datos, separador = ",") {
-    //  Recibe un array de objetos (con apellido, nombre, edad).
+    // Recibe un array de objetos (con apellido, nombre, edad).
     // Los convierte en líneas CSV.
-    // los agrega a dataJugadores.csv 
+    // Los agrega a dataJugadores.csv 
     const columnas = ["apellido", "nombre", "edad"];
     const filasNuevas = datos.map((obj) =>
         columnas
@@ -113,6 +119,7 @@ async function buscadorDeApellidos(apellidoABuscar) {
     }
     return apellidoEncontrado;
 }
+
 
 
 
