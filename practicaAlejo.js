@@ -35,6 +35,7 @@ async function main() {
     }
 }
 main();
+
 function jugadorDentroDeUnArray() {
     var arrayDeJugadores = [];
     // cambie el for por un while ya que no estaba usando ninguna condicion
@@ -97,6 +98,7 @@ function agregarDatosCsv(rutaArchivo, datos, separador = ",") { // agrega nuevas
     fs.appendFileSync(rutaArchivo, contenidoParaAgregar, "utf8");
     return contenidoParaAgregar;
 }
+
 async function buscadorDeApellidos(apellidoABuscar) {
     var apellidoQueEstoyBuscandoEnMinuscula = apellidoABuscar.toLowerCase();
     var infoJugadores = await leerCsv("./dataJugadores.csv");
