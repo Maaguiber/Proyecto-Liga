@@ -49,11 +49,12 @@ main();
 //volver al menu principal, que deberia el mismo menu que al inicio del programa
 //para agregar un jugador, se debe agregar si o si un apellido, un nombre y una edad, los 3 juntos o ninguno
 //validar que esten los 3 antes de intentar crear el jugador
-// logear en el mensaje de error los o el campo faltante
+//logear en el mensaje de error los o el campo faltante
 
 function jugadorDentroDeUnArray() {
     var arrayDeJugadores = [];
-    for (var i = 0; ; i++) {
+     // cambie el for por un while ya que no estaba usando ninguna condicion
+    while (true){
         var jugador = {};
         jugador.apellido = alUsuario.pedirValorString("Ingrese un apellido :");
         if (jugador.apellido.toLowerCase() === "salir") {
