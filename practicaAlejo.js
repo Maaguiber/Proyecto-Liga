@@ -73,12 +73,10 @@ function jugadorDentroDeUnArray() {
         console.log("Jugador agregado correctamente");
     }
 }
-function agregarDatosCsv(rutaArchivo, datos, separador = ",") { // agrega nuevas filas a un archivo
+function agregarDatosCsv(rutaArchivo, datos, separador = ",") {
     //  Recibe un array de objetos (con apellido, nombre, edad).
     // Los convierte en líneas CSV.
-    // Compara con el contenido existente del archivo.
-    // Agrega solo las líneas que no están ya presentes.
-    // Devuelve el texto que agregó.
+    // los agrega a dataJugadores.csv 
     const columnas = ["apellido", "nombre", "edad"];
     const filasNuevas = datos.map((obj) =>
         columnas
