@@ -34,6 +34,7 @@ async function main() {
 }
 main();
 
+
 function jugadorDentroDeUnArray() {
     var arrayDeJugadores = [];
     // cambie el for por un while ya que no estaba usando ninguna condicion
