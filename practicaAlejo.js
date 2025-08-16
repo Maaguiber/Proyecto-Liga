@@ -33,34 +33,35 @@ async function main() {
     }
 }
 main();
-
+function noEsUnNumero(numero) {
+    const resultado = isNaN(numero)
+    return resultado
+}
 
 function jugadorDentroDeUnArray() {
     var arrayDeJugadores = [];
-    // cambie el for por un while ya que no estaba usando ninguna condicion
+
     while (true) {
         var jugador = {};
-        jugador.apellido = alUsuario.pedirValorString("Ingrese un apellido :");
-        if (jugador.apellido.toLowerCase() === "salir") {
-            return arrayDeJugadores;
-        }
-        jugador.nombre = alUsuario.pedirValorString("Ingrese un nombre :");
-        if (jugador.nombre.toLowerCase() === "salir") {
-            return arrayDeJugadores;
-        }
-        var apellido = jugador.apellido.trim();// Limpiar espacios antes de validar
-        var nombre = jugador.nombre.trim();// Limpiar espacios antes de validar
-        // Validación de campos vacíos
-        if (apellido === "" && nombre === "") {
-            console.log("El apellido y el nombre están vacíos");
-            continue;
-        }
-        if (apellido === "") {
+
+        jugador.apellido = alUsuario.pedirValorString("Ingrese un apellido :").trim();
+        if (jugador.apellido.toLowerCase() === "salir") return arrayDeJugadores;
+        if (jugador.apellido === "") {
             console.log("El apellido está vacío");
             continue;
         }
-        if (nombre === "") {
+        if (!noEsUnNumero(jugador.apellido)) {
+            console.log("El apellido no puede ser un número");
+            continue;
+        }
+        jugador.nombre = alUsuario.pedirValorString("Ingrese un nombre :").trim();
+        if (jugador.nombre.toLowerCase() === "salir") return arrayDeJugadores;
+        if (jugador.nombre === "") {
             console.log("El nombre está vacío");
+            continue;
+        }
+        if (!noEsUnNumero(jugador.nombre)) {
+            console.log("El nombre no puede ser un número");
             continue;
         }
         jugador.edad = alUsuario.pedirValorNumber("Ingrese una edad:");
