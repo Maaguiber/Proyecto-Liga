@@ -1,10 +1,12 @@
-const mysql = require("mysql2");
+const mysql = require("mysql2/promise"); // versión compatible con async/await
 
-const connection = mysql.createConnection({
+// Pool de conexiones para que se puedan hacer varias consultas sin cerrar la conexión
+const connection = mysql.createPool({
   host: "localhost",
   user: "root",
   password: "passucci",
   database: "holamundo",
 });
 
-module.exports = connection; // Exporta la conexión para usarla en otros archivos
+module.exports = connection;
+

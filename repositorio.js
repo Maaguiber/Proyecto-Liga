@@ -1,52 +1,20 @@
 const prompt = require("prompt-sync")();
-const connection = require("./dataBase");
+const connection = require("./database");
 
-async function main() {
-  while (true) {
-    let nombre = prompt('Ingrese un nombre (o "Salir" para terminar): ').trim();
-    if (nombre.toLowerCase() === "salir") break;
-
-    let apellido = prompt(
-      'Ingrese un apellido (o "Salir" para terminar): '
-    ).trim();
-    if (apellido.toLowerCase() === "salir") break;
-
-    if (!nombre || !apellido) {
-      console.log("El nombre o el apellido están vacíos");
-      continue;
-    }
-
-    let fechaNacimiento = prompt(
-      "Ingrese fecha de nacimiento (YYYY-MM-DD), por ejemplo 1990-05-15: "
-    ).trim();
-    if (!fechaNacimiento) {
-      console.log("Fecha de nacimiento inválida");
-      continue;
-    }
-
-    let clubId = Number(prompt("Ingrese ID del club: ").trim());
-    if (isNaN(clubId) || clubId <= 0) {
-      console.log("Club ID inválido");
-      continue;
-    }
-
-    await crearJugador(nombre, apellido, fechaNacimiento, clubId);
-    await mostrarNombres();
-
-    console.log("-----------------------------------");
+// Función que devuelve todos los jugadores
+async function traerJugadores() {
+  try {
+    const result = await connection.query("SELECT * FROM jugadores");
+    return result[0]; // result[0] = filas de la tabla
+  } catch (err) {
+    console.error("Error al traer jugadores:", err);
+    throw err;
   }
-
-  console.log("Programa terminado.");
 }
 
-main();
-
+// Función para crear un jugador
 async function crearJugador(nombre, apellido, fechaNacimiento, clubId) {
-  // await detiene la ejecución hasta que MySQL termine la inserción.
-  // Punto clave: async/await nos permite tratar consultas que toman tiempo como si fueran operaciones
-  // síncronas, evitando problemas de “conexión cerrada” o de resultados incompletos.
   try {
-    //intenta ejecutar la consulta a MySQL.
     const [result] = await connection.execute(
       "INSERT INTO jugadores (nombre, apellido, fecha_nacimiento, club_id) VALUES (?, ?, ?, ?)",
       [nombre, apellido, fechaNacimiento, clubId]
@@ -54,11 +22,10 @@ async function crearJugador(nombre, apellido, fechaNacimiento, clubId) {
     console.log("Jugador creado con ID:", result.insertId);
   } catch (err) {
     console.log("No se pudo crear el jugador:", err.message);
-  } finally {
-    await connection.end();
   }
 }
 
+// Función para mostrar nombres en consola
 async function mostrarNombres() {
   try {
     const [results] = await connection.execute("SELECT nombre FROM jugadores");
@@ -67,7 +34,34 @@ async function mostrarNombres() {
     console.log("-------------------------------\n");
   } catch (err) {
     console.log("Error al obtener los nombres:", err.message);
-  } finally {
-    await connection.end();
   }
 }
+
+// Programa interactivo (solo si se ejecuta directamente)
+async function main() {
+  while (true) {
+    let nombre = prompt('Ingrese un nombre (o "Salir" para terminar): ').trim();
+    if (nombre.toLowerCase() === "salir") break;
+
+    let apellido = prompt('Ingrese un apellido: ').trim();
+    if (!apellido) continue;
+
+    let fechaNacimiento = prompt("Ingrese fecha de nacimiento (YYYY-MM-DD): ").trim();
+    let clubId = Number(prompt("Ingrese ID del club: ").trim());
+    if (isNaN(clubId) || clubId <= 0) continue;
+
+    await crearJugador(nombre, apellido, fechaNacimiento, clubId);
+    await mostrarNombres();
+  }
+
+  console.log("Programa terminado.");
+}
+
+// Ejecuta main() solo si este archivo se corre directamente
+if (require.main === module) {
+  main();
+}
+
+// Exportamos las funciones para usar en app.js
+module.exports = { traerJugadores, crearJugador, mostrarNombres };
+
