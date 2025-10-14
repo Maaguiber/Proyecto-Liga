@@ -22,6 +22,12 @@ app.get("/jugadores", async (req, res) => {
   }
 });
 
+//traer jugador por id
+//crear funcion en el repositorio que reciba el id y devuelva el jugador
+//si no existe, devolver mensaje de error con status 404
+//si existe, devolver el jugador con status 200
+app.get("/jugadores/:id", async (req, res) => {});
+
 //crear jugador
 //tiene que recibir lo necesario salvo el ID,
 //debe ser asyncrona
