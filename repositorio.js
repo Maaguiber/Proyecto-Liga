@@ -13,8 +13,11 @@ async function traerJugadores() {
 }
 
 // Función para crear un jugador
-async function crearJugador(nombre, apellido, fechaNacimiento, clubId) {
+async function crearJugador(parametrosCrearJugador) {
   try {
+    //desestructurar un objeto
+    const { nombre, apellido, fechaNacimiento, clubId } =
+      parametrosCrearJugador;
     const [result] = await connection.execute(
       "INSERT INTO jugadores (nombre, apellido, fecha_nacimiento, club_id) VALUES (?, ?, ?, ?)",
       [nombre, apellido, fechaNacimiento, clubId]
@@ -32,6 +35,8 @@ async function mostrarNombres() {
     console.log("\n--- Nombres de los jugadores ---");
     results.forEach((j, i) => console.log(`${i + 1}. ${j.nombre}`));
     console.log("-------------------------------\n");
+    //retornar siempre el resultado de la consulta
+    return results;
   } catch (err) {
     console.log("Error al obtener los nombres:", err.message);
   }
@@ -43,10 +48,12 @@ async function main() {
     let nombre = prompt('Ingrese un nombre (o "Salir" para terminar): ').trim();
     if (nombre.toLowerCase() === "salir") break;
 
-    let apellido = prompt('Ingrese un apellido: ').trim();
+    let apellido = prompt("Ingrese un apellido: ").trim();
     if (!apellido) continue;
 
-    let fechaNacimiento = prompt("Ingrese fecha de nacimiento (YYYY-MM-DD): ").trim();
+    let fechaNacimiento = prompt(
+      "Ingrese fecha de nacimiento (YYYY-MM-DD): "
+    ).trim();
     let clubId = Number(prompt("Ingrese ID del club: ").trim());
     if (isNaN(clubId) || clubId <= 0) continue;
 
@@ -64,4 +71,3 @@ if (require.main === module) {
 
 // Exportamos las funciones para usar en app.js
 module.exports = { traerJugadores, crearJugador, mostrarNombres };
-
