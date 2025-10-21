@@ -1,7 +1,9 @@
 const express = require("express");
-const { traerJugadores } = require("./repositorio");
+const { traerJugadores, crearJugador, traerClubPorId,actualizarJugador } = require("./repositorio");
 const app = express();
 const port = 3000;
+
+app.use(express.json());
 
 app.get("/", (req, res) => {
   // Envía un mensaje de prueba al navegador
@@ -22,6 +24,10 @@ app.get("/jugadores", async (req, res) => {
   }
 });
 
+
+//pasarme el CURL que le pega a este endpoint
+
+app.post("/jugadores", async (req, res) => {
 //crear jugador
 //tiene que recibir lo necesario salvo el ID,
 //debe ser asyncrona
@@ -30,13 +36,37 @@ app.get("/jugadores", async (req, res) => {
 //la api va a devolver un mensaje de "El club solicitado no existe"
 //esto sew va a tener que probar en postman ya que hay que pasarle un body
 
-//pasarme el CURL que le pega a este endpoint
+  try {
+    // Recibe los datos del jugador (sin el ID, que lo genera la base)
+    const { nombre, apellido, fecha_nacimiento, clubId } = req.body;
+    // Valida que se hayan enviado todos los campos necesarios
+    if (!nombre || !apellido || !fecha_nacimiento || !clubId) {
+      return res.status(400).json({ error: "Faltan datos obligatorios" });
+    }
+    // Busca el club por ID en el repositorio
+    const club = await traerClubPorId(clubId);
+    // Si el club no existe, devuelve el mensaje solicitado
+    if (!club) {
+      return res.status(404).json({ error: "El club solicitado no existe" });
+    }
+    // Si el club existe, crea el jugador en la base
+    const nuevoJugador = await crearJugador({
+      nombre,
+      apellido,
+      fechaNacimiento: fecha_nacimiento,
+      clubId: clubId,
+    });
 
-app.post("/jugadores", async (req, res) => {
-  console.log(req);
-  console.log(req.body);
+    // Devuelve una respuesta con el jugador creado
+    return res.status(201).json(nuevoJugador);
+  } catch (error) {
+    console.error("Error en POST /jugadores:", error);
+    res.status(500).json({ error: "Error interno del servidor" });
+  }
 });
 
+
+app.put("/jugadores/:id", async (req, res) => {
 //se le pasa el id del jugador en la url
 //con ese id primero:
 //buscamos el jugador en el repo, en caso de no existir, devolver mensaje de error con status 404
@@ -45,7 +75,35 @@ app.post("/jugadores", async (req, res) => {
 //1: el id del jugador
 //2: los campos a actualizar
 //la funcion en caso de funciuonar va a devolver un mensaje de exito con status 200 y va a devolver el jugador actualizado
-app.put("/jugadores/:id", async (req, res) => {});
+  try {
+    const jugadorId = req.params.id;
+    const camposActualizar = req.body;
+
+    // Buscamos todos los jugadores para validar si existe
+    const jugadores = await traerJugadores();
+    const jugador = jugadores.find(j => j.id == jugadorId);
+
+    // Si no existe, devolvemos 404
+    if (!jugador) {
+      return res.status(404).json({ error: "El jugador no existe" });
+    }
+
+    // Si existe, actualizamos con los campos recibidos
+    const jugadorActualizado = await actualizarJugador(jugadorId, camposActualizar);
+
+    // Devolvemos el jugador actualizado
+    return res.status(200).json({
+      mensaje: "Jugador actualizado con éxito",
+      jugador: jugadorActualizado
+    });
+
+  } catch (error) {
+    console.error("Error en PUT /jugadores:", error);
+    res.status(500).json({ error: "Error interno del servidor" });
+  }
+});
+
+
 
 // Inicia el servidor y lo pone a escuchar en el puerto definido
 app.listen(port, () => {
