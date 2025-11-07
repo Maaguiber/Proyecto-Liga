@@ -6,23 +6,25 @@ const port = 3000;
 app.use(express.json());
 
 app.get("/", (req, res) => {
-  // Envía un mensaje de prueba al navegador
   res.send("Hello World!");
 });
 
-//endpoint
 app.get("/jugadores", async (req, res) => {
   try {
-    // Llama a la función que obtiene los jugadores de la base de datos
-    const jugadores = await traerJugadores();
-    // Devuelve los jugadores en formato JSON
+    const { clubID } = req.query;
+    let jugadores = await traerJugadores();
+
+    if (clubID) {
+      jugadores = jugadores.filter(jugador => jugador.club_id == clubID);
+    }
+
     res.json(jugadores);
   } catch (error) {
     console.error("Error al obtener jugadores:", error);
-    // Devuelve un mensaje de error al cliente
     res.status(500).json({ error: "Error al obtener jugadores" });
   }
 });
+
 
 
 //pasarme el CURL que le pega a este endpoint
