@@ -30,36 +30,27 @@ app.get("/jugadores", async (req, res) => {
 //pasarme el CURL que le pega a este endpoint
 
 app.post("/jugadores", async (req, res) => {
-//crear jugador
-//tiene que recibir lo necesario salvo el ID,
-//debe ser asyncrona
-//va a recibir tambien un clubId, tiene que validar primero que ese club exista
-//COmo se va a validr que exista el club? vas a buscar el club POR ID EN EL REPO y en caso de que no exista,
-//la api va a devolver un mensaje de "El club solicitado no existe"
-//esto sew va a tener que probar en postman ya que hay que pasarle un body
-
   try {
-    // Recibe los datos del jugador (sin el ID, que lo genera la base)
-    const { nombre, apellido, fecha_nacimiento, clubId } = req.body;
-    // Valida que se hayan enviado todos los campos necesarios
+    const { nombre, apellido, fecha_nacimiento, clubId, dni } = req.body;
+
     if (!nombre || !apellido || !fecha_nacimiento || !clubId) {
       return res.status(400).json({ error: "Faltan datos obligatorios" });
     }
-    // Busca el club por ID en el repositorio
+
     const club = await traerClubPorId(clubId);
-    // Si el club no existe, devuelve el mensaje solicitado
+
     if (!club) {
       return res.status(404).json({ error: "El club solicitado no existe" });
     }
-    // Si el club existe, crea el jugador en la base
+
     const nuevoJugador = await crearJugador({
       nombre,
       apellido,
       fechaNacimiento: fecha_nacimiento,
-      clubId: clubId,
+      clubId,
+      dni
     });
 
-    // Devuelve una respuesta con el jugador creado
     return res.status(201).json(nuevoJugador);
   } catch (error) {
     console.error("Error en POST /jugadores:", error);
