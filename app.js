@@ -1,5 +1,6 @@
 const express = require("express");
 const { traerJugadores, crearJugador, traerClubPorId, actualizarJugador } = require("./repositorio");
+const { crearJugadorFuncion } = require("./controlador");
 const app = express();
 const port = 3000;
 
@@ -38,6 +39,8 @@ app.post("/jugadores", async (req, res) => {
     if (!club) {
       return res.status(404).json({ error: "El club solicitado no existe" });
     }
+    //el dni es unico, no se tiene que repetir, para esto hay que hacer dos cosas
+    // 1-  agregar constraint UNIQUE al campo dni https://www.w3schools.com/mysql/mysql_unique.asp
     const nuevoJugador = await crearJugador({
       nombre,
       apellido,
@@ -52,32 +55,7 @@ app.post("/jugadores", async (req, res) => {
   }
 });
 
-app.put("/jugadores/:id", async (req, res) => {
-  try {
-    const jugadorId = req.params.id;
-    const camposActualizar = req.body;
-    // Validamos que el jugador exista 
-    const jugadores = await traerJugadores();
-    //.find busca el primer elemento que cumpla una condición
-    const jugador = jugadores.find(j => j.id == jugadorId);
-    // Si no existe, devolvemos 404
-    if (!jugador) {
-      return res.status(404).json({ error: "El jugador no existe" });
-    }
-    // Si existe, actualizamos con los campos recibidos
-    const jugadorActualizado = await actualizarJugador(jugadorId, camposActualizar);
-    // Devolvemos el jugador actualizado
-    return res.status(200).json({
-      mensaje: "Jugador actualizado con éxito",
-      jugador: jugadorActualizado
-    });
-  } catch (error) {
-    console.error("Error en PUT /jugadores:", error);
-    // 500 Significa “Error interno del servidor”
-    // errores inesperados que no son culpa del cliente
-    res.status(500).json({ error: "Error interno del servidor" });
-  }
-});
+app.put("/jugadores/:id", crearJugadorFuncion);
 
 
 
