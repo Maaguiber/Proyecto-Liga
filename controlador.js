@@ -1,5 +1,6 @@
 const { traerJugadores, crearJugador, traerClubPorId, actualizarJugador } = require("./repositorio");
 
+//mover el resto delas funciones de app.js par adejar prolijo el archivo
 async function crearJugadorFuncion(req, res) {
   try {
     const { nombre, apellido, fecha_nacimiento, clubId, dni } = req.body;
