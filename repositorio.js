@@ -103,4 +103,16 @@ async function crearJugador(parametrosCrearJugador) {
 }
 
 
+// al igual que lo que te pedi con el controlador: 
+// CONSIGNA: cambiar la forma de exportar en este archivo, en lugar de exportar las funciones individuales, exportá
+// un objeto llamado jugadoresRepository que contenga todas las funciones
+// como ayuda te puedo decir que el resultado final es que vos en controlador.js puedas pasar de esto:
+
+//const { traerJugadores, crearJugador, traerClubPorId, actualizarJugador } = require("./repositorio");
+//  const jugadores = await traerJugadores();
+
+// a esto: 
+// const jugadoresRepository = require("./repositorio");
+//  const jugadores = jugadoresRepository.traerJugadores();
+
 module.exports = { traerJugadores, crearJugador,traerClubPorId,actualizarJugador };
