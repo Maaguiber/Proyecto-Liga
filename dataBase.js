@@ -8,5 +8,6 @@ const connection = mysql.createPool({
   database: "holamundo",
 });
 
+
 module.exports = connection;
 
