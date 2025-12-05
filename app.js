@@ -1,23 +1,21 @@
-const express = require("express");
-const app = express();
-const port = 3000;
-const { getJugadoresController,postJugadoresController,putJugadoresController} = require("./controlador");
+const express = require("express"); // Importa Express
+const app = express(); // Crea la aplicación Express
+const port = 3000; // Define el puerto del servidor
+app.use(express.json()); // Permite leer JSON en el body de las requests
+const jugadoresController = require("./controlador"); // Importa todas las funciones del controlador como un objeto
+const connection = require("./database"); // Importa la conexión a la base de datos
 
-app.use(express.json());
+// Rutas
+app.get("/jugadores", jugadoresController.getJugadores); // Trae todos los jugadores o solo filtra por clubID si viene como query param
+app.get("/jugadores/:id", jugadoresController.getJugadorPorId); // Trae un jugador específico por id
+app.post("/jugadores", jugadoresController.crearJugador); // Crea un nuevo jugador
+app.put("/jugadores/:id", jugadoresController.actualizarJugador); // Actualiza un jugador existente
 
-
-app.get("/jugadores", getJugadoresController);  //trae todos, valida clubID y filtra cuando corresponde
-app.post("/jugadores", postJugadoresController);  // crea un nuevo jugador y devuelve el jugador creado, incluyendo su id
-app.put("/jugadores/:id", putJugadoresController); //actualiza los campos que envíes en el body y el resto de los datos quedan igual
-
-
-// Inicia el servidor y lo pone a escuchar en el puerto definido
-//CONSIGNA
-// la base de datos debe inicializarse ni bien levanta la app, es indispensable para que funcione cualquier endpoint
-// 1- que la base de datos se inicialice aca adentro, buscar en la libreria que levanta la db una forma de hacerlo aca adentro(*)
-//2 agregar un console log "Base de datos conectada.", si falla la conexion que diga "Error al intentar conectar con la base de datos"
-//
 app.listen(port, () => {
-  //ACA (*)
+  // Inicializamos la base de datos
+  connection.getConnection()
+    .then(() => console.log("Base de datos conectada."))
+    .catch(() => console.log("Error al intentar conectar con la base de datos"));
+
   console.log(`Servidor escuchando en http://localhost:${port}`);
 });
