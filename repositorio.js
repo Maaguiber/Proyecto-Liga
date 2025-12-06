@@ -1,5 +1,5 @@
+// Es el módulo que habla directamente con la base de datos.
 const connection = require("./database");
-
 async function traerJugadores() {
   try {
     const result = await connection.query("SELECT * FROM jugadores");

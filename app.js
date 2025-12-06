@@ -2,7 +2,7 @@ const express = require("express"); // Importa Express
 const app = express(); // Crea la aplicación Express
 const port = 3000; // Define el puerto del servidor
 app.use(express.json()); // Permite leer JSON en el body de las requests
-const jugadoresController = require("./controlador"); // Importa todas las funciones del controlador como un objeto
+const jugadoresController = require("./controlador")// Importa todas las funciones del controlador como un objeto
 const connection = require("./database"); // Importa la conexión a la base de datos
 
 // Rutas
