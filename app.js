@@ -6,8 +6,8 @@ const { getJugadoresController,postJugadoresController,putJugadoresController} =
 app.use(express.json());
 
 app.get("/jugadores", getJugadoresController);  //trae todos, valida clubID y filtra cuando corresponde
-app.post("/jugadores", postJugadoresController);  // crea un nuevo jugador y devuelve el jugador creado, incluyendo su id
-app.put("/jugadores/:id", putJugadoresController); //actualiza los campos que envíes en el body y el resto de los datos quedan igual
+app.post("/jugadores", postJugadoresController);  // crea un nuevo jugador y devuelve el jugador creadot el cliente ahora recibe mensajes de error específicos
+app.put("/jugadores/:id", putJugadoresController); // Actualiza un jugador específico por ID
 
 
 // Inicia el servidor y lo pone a escuchar en el puerto definido
