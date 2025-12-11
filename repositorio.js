@@ -99,8 +99,44 @@ async function crearJugador(parametrosCrearJugador) {
 
   } catch (err) {
     console.log("No se pudo crear el jugador:", err.message);
+    throw err;
+  }
+}
+
+async function traerJugadorPorId(id) {
+  try {
+    const resultado = await connection.query(
+      "SELECT * FROM jugadores WHERE id = ?",
+      [id]
+    );
+    // resultado[0] contiene las filas
+    // resultado[1] contiene metadatos (no nos interesa)
+    const filas = resultado[0];
+    
+    if (filas.length > 0) {
+      return filas[0]; // Devuelve el primer jugador
+    } else {
+      return null; // No encontrado
+    }
+  } catch (error) {
+    console.error("Error al traer jugador por ID:", error);
+    throw error;
   }
 }
 
 
-module.exports = { traerJugadores, crearJugador,traerClubPorId,actualizarJugador };
+async function traerJugadorPorDni(dni) {
+  try {
+    const resultado = await connection.query(
+      "SELECT * FROM jugadores WHERE dni = ?",
+      [dni]
+    );
+    const filas = resultado[0];
+    return filas.length > 0 ? filas[0] : null;
+  } catch (error) {
+    console.error("Error al buscar jugador por DNI:", error);
+    throw error;
+  }
+}
+
+module.exports = { traerJugadores, crearJugador,traerClubPorId,actualizarJugador,traerJugadorPorId,traerJugadorPorDni };
